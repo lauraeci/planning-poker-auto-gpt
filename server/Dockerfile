@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm ci
 
 # Copy the source code to the working directory
-COPY ../.. .
+COPY . .
 
 # Build the TypeScript project
 RUN npm run build
