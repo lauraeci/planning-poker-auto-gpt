@@ -127,12 +127,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-.idea/*
-.idea
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/jsLibraryMappings.xml
-.idea_modules
 .vscode
 .vscode/*
 .idea/
