@@ -1,16 +1,14 @@
-import {MutationResolvers, QueryResolvers, ResolversTypes, Room, User} from '../../generated/graphql';
+import {MutationResolvers, QueryResolvers, Room, User} from '../../generated/graphql';
 
 let rooms: Room[] = []
 
-function createNewRoom(name: string): ResolversTypes['Room'] {
-    const newRoom: Room = {
+function createNewRoom(name: string): Room {
+    return {
         id: `room-${rooms.length + 1}`,
         name,
         users: [],
         estimations: [],
     };
-
-    return newRoom;
 }
 
 export const findRoomById = async (id: string): Promise<Room | null> => {
@@ -18,11 +16,11 @@ export const findRoomById = async (id: string): Promise<Room | null> => {
 };
 
 const roomQueryResolvers: QueryResolvers = {
-    getRoom: async (parent, args, context, info) => {
+    getRoom: async (parent, args) => {
         const { id } = args;
         // Replace the following line with the actual implementation
-        const room = await findRoomById(id); // Assuming findRoomById() returns a Promise
-        return room;
+         // Assuming findRoomById() returns a Promise
+        return await findRoomById(id);
     },
     getRooms: () => {
         return rooms;
@@ -48,7 +46,7 @@ const roomMutationResolvers: MutationResolvers = {
         }
         return user;
     },
-    leaveRoom: (_, { roomId, userId }) => {
+    leaveRoom: (_, { roomId}) => {
         const roomIndex = rooms.findIndex((room) => room.id === roomId);
         if (roomIndex === -1) {
             throw new Error('Room not found');
