@@ -57,6 +57,23 @@ This command will start a Docker container with the client running on port 3000.
 
 Now you have the planning poker app running locally on your machine using Docker. Enjoy using the app!
 
+Without docker
+
+Start the server
+1.	
+      npm install
+2.	Build the server:
+   
+      npm run build
+      This command compiles the TypeScript files into JavaScript and places the output in the dist directory.
+3.	Run the server:
+
+      npm run serve
+
+Start the client
+1.   
+      npm install
+2. npm run build
 
 ## User Requirements
 

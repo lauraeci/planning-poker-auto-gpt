@@ -1,0 +1,24 @@
+type Room {
+  id: ID!
+  name: String!
+  users: [User!]!
+  estimations: [Estimation!]!
+}
+
+type Estimation {
+  user: User!
+  value: Float!
+}
+
+extend type Query {
+  getRooms: [Room!]!
+  getRoom(id: ID!): Room
+}
+
+extend type Mutation {
+  createRoom(name: String!): Room!
+  joinRoom(roomId: ID!, userName: String!): User!
+  leaveRoom(roomId: ID!, userId: ID!): Boolean!
+  submitEstimation(roomId: ID!, userId: ID!, estimation: Float!): Estimation!
+  clearEstimations(roomId: ID!): Boolean!
+}

@@ -1,24 +1,43 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
-export const GET_ROOMS = gql`
-  query {
-    rooms {
+// Room mutations
+export const CREATE_ROOM = gql`
+  mutation($name: String!) {
+    createRoom(name: $name) {
       id
       name
     }
   }
-`;
+`
+export const LEAVE_ROOM = gql`
+mutation($roomId: ID!, $userId: ID!) {
+  leaveRoom(roomId: $roomId, userId: $userId)
+}
+`
 
-export const GET_ROOM = gql`
-  query($roomId: ID!) {
-    room(id: $roomId) {
-      id
-      name
-      users {
+export const JOIN_ROOM = gql`
+mutation($roomId: ID!, $name: String!) {
+    joinRoom(roomId: $roomId, name: $name) {
         id
         name
-        estimation
-      }
     }
+}
+`
+
+// Estimation mutations
+export const CLEAR_ESTIMATIONS = gql`
+    mutation($roomId: ID!) {
+      clearEstimations(roomId: $roomId)
+    }
+`
+
+export const SUBMIT_ESTIMATION = gql`
+mutation($roomId: ID!, $userId: ID!, $estimation: Float!) {
+  submitEstimation(roomId: $roomId, userId: $userId, estimation: $estimation) {
+    id
+    name
+    estimation
   }
-`;
+}
+`
+
