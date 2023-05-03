@@ -28,7 +28,7 @@ export type Mutation = {
   createUser: User;
   joinRoom: User;
   leaveRoom: Scalars['Boolean'];
-  submitEstimation: Estimation;
+  submitEstimation: Scalars['Boolean'];
 };
 
 
@@ -200,7 +200,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'name'>>;
   joinRoom?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationJoinRoomArgs, 'roomId' | 'userName'>>;
   leaveRoom?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationLeaveRoomArgs, 'roomId' | 'userId'>>;
-  submitEstimation?: Resolver<ResolversTypes['Estimation'], ParentType, ContextType, RequireFields<MutationSubmitEstimationArgs, 'estimation' | 'roomId' | 'userId'>>;
+  submitEstimation?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSubmitEstimationArgs, 'estimation' | 'roomId' | 'userId'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

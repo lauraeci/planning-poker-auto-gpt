@@ -19,6 +19,6 @@ extend type Mutation {
   createRoom(name: String!): Room!
   joinRoom(roomId: ID!, userName: String!): User!
   leaveRoom(roomId: ID!, userId: ID!): Boolean!
-  submitEstimation(roomId: ID!, userId: ID!, estimation: Float!): Estimation!
+  submitEstimation(roomId: ID!, userId: ID!, estimation: Float!): Boolean!
   clearEstimations(roomId: ID!): Boolean!
 }
