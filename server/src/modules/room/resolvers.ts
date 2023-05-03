@@ -1,37 +1,60 @@
-import { MutationResolvers, QueryResolvers } from '../../generated/graphql';
+import {MutationResolvers, QueryResolvers, ResolversTypes, Room, User} from '../../generated/graphql';
 
-// You can replace the following example data with your actual data source, e.g., a database
-const rooms = [
-    { id: '1', name: 'Room 1' },
-    { id: '2', name: 'Room 2' },
-];
+let rooms: Room[] = []
+
+function createNewRoom(name: string): ResolversTypes['Room'] {
+    const newRoom: Room = {
+        id: `room-${rooms.length + 1}`,
+        name,
+        users: [],
+        estimations: [],
+    };
+
+    return newRoom;
+}
+
+export const findRoomById = async (id: string): Promise<Room | null> => {
+    return rooms.find((room) => room.id === id) || null;
+};
 
 const roomQueryResolvers: QueryResolvers = {
-    getRoom: (_, { id }) => rooms.find((room) => room.id === id),
-    getRooms: () => rooms,
+    getRoom: async (parent, args, context, info) => {
+        const { id } = args;
+        // Replace the following line with the actual implementation
+        const room = await findRoomById(id); // Assuming findRoomById() returns a Promise
+        return room;
+    },
+    getRooms: () => {
+        return rooms;
+    },
 };
 
 const roomMutationResolvers: MutationResolvers = {
-    createRoom: (_, { name }) => {
-        const newRoom = { id: Date.now().toString(), name };
+    createRoom: async (_, { name }) => {
+        const newRoom = await createNewRoom(name);
         rooms.push(newRoom);
         return newRoom;
     },
-    updateRoom: (_, { id, name }) => {
-        const roomIndex = rooms.findIndex((room) => room.id === id);
+
+    joinRoom: async (_, { roomId, userName }) => {
+        const roomIndex = await rooms.findIndex((room) => room.id === roomId);
         if (roomIndex === -1) {
             throw new Error('Room not found');
         }
-        rooms[roomIndex].name = name;
-        return rooms[roomIndex];
+        rooms[roomIndex].name = userName;
+        const user: User = {
+            id: `user-${rooms[roomIndex].users.length + 1}`,
+            name: userName
+        }
+        return user;
     },
-    deleteRoom: (_, { id }) => {
-        const roomIndex = rooms.findIndex((room) => room.id === id);
+    leaveRoom: (_, { roomId, userId }) => {
+        const roomIndex = rooms.findIndex((room) => room.id === roomId);
         if (roomIndex === -1) {
             throw new Error('Room not found');
         }
-        const deletedRoom = rooms.splice(roomIndex, 1)[0];
-        return deletedRoom;
+        rooms.splice(roomIndex, 1)[0];
+        return true
     },
 };
 
